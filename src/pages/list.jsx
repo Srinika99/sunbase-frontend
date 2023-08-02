@@ -36,7 +36,8 @@ export default function UserList() {
   };
 
   const handleEdit = (user) => {
-    
+    window.localStorage.setItem("userToEdit", JSON.stringify(user));
+    window.location.href = "/update";
   }
 
   return (

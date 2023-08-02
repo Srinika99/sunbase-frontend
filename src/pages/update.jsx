@@ -7,6 +7,7 @@ const UpdateUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [userData, setUserData] = useState({
+    uuid: "",
     first_name: "",
     last_name: "",
     street: "",
@@ -18,18 +19,9 @@ const UpdateUser = () => {
   });
 
   useEffect(() => {
-    const dummyUserData = {
-      first_name: "John",
-      last_name: "Doe",
-      street: "123 Main St",
-      address: "Apt 4B",
-      city: "New York",
-      state: "NY",
-      email: "john.doe@example.com",
-      phone: "555-123-4567",
-    };
+    const userData = window.localStorage.getItem('userToEdit')
 
-    setUserData(dummyUserData);
+    setUserData(JSON.parse(userData));
   }, []);
 
   const handleChange = (e) => {
@@ -45,12 +37,11 @@ const UpdateUser = () => {
     setError("");
 
     try {
-     
-      const response = await updateUser(userData);
 
-      console.log("User updated:", response);
+      const accessToken = localStorage.getItem("access_token");
+      await updateUser(userData, accessToken);
 
-      navigate("/user-details");
+      window.location.href = "/list";
     } catch (error) {
       console.error("Failed to update user:", error);
       setError("Failed to update user. Please try again later.");
