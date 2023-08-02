@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function getCustomerList(accessToken) {
+export async function getUserList(accessToken) {
   const apiUrl = "https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=get_customer_list";
 
   try {
@@ -17,7 +17,7 @@ export async function getCustomerList(accessToken) {
     return data; 
 
   } catch (error) {
-    console.error("Failed to fetch customer list:", error);
-    throw new Error("Failed to fetch customer list. Please try again later.");
+    console.error("Failed to fetch user list:", error);
+    throw new Error("Failed to fetch user list. Please try again later.");
   }
 }

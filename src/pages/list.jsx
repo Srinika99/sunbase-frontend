@@ -1,39 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { getCustomerList } from "../Apis/list";
-import { deleteCustomer } from "../Apis/delete";
+import { getUserList } from "../Apis/list";
+import { deleteUser } from "../Apis/delete";
 
-export default function CustomerList() {
+export default function UserList() {
   const [isLoading, setIsLoading] = useState(true);
-  const [customerList, setCustomerList] = useState([]);
+  const [userList, setUserList] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchCustomerList = async () => {
+    const fetchUserList = async () => {
       try {
         const accessToken = localStorage.getItem("access_token");
-        const list = await getCustomerList(accessToken);
-        setCustomerList(list);
+        const list = await getUserList(accessToken);
+        setUserList(list);
         setIsLoading(false);
       } catch (error) {
-        console.error("Failed to fetch customer list:", error);
-        setError("Failed to fetch customer list. Please try again later.");
+        console.error("Failed to fetch user list:", error);
+        setError("Failed to fetch user list. Please try again later.");
         setIsLoading(false);
       }
     };
 
-    fetchCustomerList();
+    fetchUserList();
   }, []);
 
   const handleDelete = async (uuid) => {
     try {
       const accessToken = localStorage.getItem("access_token");
-      await deleteCustomer(uuid, accessToken);
+      await deleteUser(uuid, accessToken);
 
       window.location.reload();
     } catch (error) {
-      console.error("Failed to delete customer:", error);
+      console.error("Failed to delete user:", error);
     }
   };
+
+  const handleEdit = (user) => {
+    
+  }
 
   return (
     <div className="min-h-full flex flex-col justify-center px-6 py-12 lg:px-8">
@@ -44,14 +48,14 @@ export default function CustomerList() {
       >
         {isLoading ? "Creating..." : "New User"}
       </button>
-      <h2 className="text-2xl font-bold leading-9 text-gray-900">Customer List</h2>
+      <h2 className="text-2xl font-bold leading-9 text-gray-900">user List</h2>
       {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : (
         <div className="overflow-x-auto">
-          {customerList.length > 0 ? (
+          {userList.length > 0 ? (
             <table className="w-full table-auto border-collapse">
               <thead className="text-xs text-gray-700 bg-gray-50">
                 <tr>
@@ -68,20 +72,26 @@ export default function CustomerList() {
                 </tr>
               </thead>
               <tbody className="text-sm text-gray-700">
-                {customerList.map((customer) => (
-                  <tr key={customer.uuid} className="border-t border-gray-200">
-                    <td className="px-4 py-2">{customer.id}</td>
-                    <td className="px-4 py-2">{customer.first_name}</td>
-                    <td className="px-4 py-2">{customer.last_name}</td>
-                    <td className="px-4 py-2">{customer.street}</td>
-                    <td className="px-4 py-2">{customer.address}</td>
-                    <td className="px-4 py-2">{customer.city}</td>
-                    <td className="px-4 py-2">{customer.state}</td>
-                    <td className="px-4 py-2">{customer.email}</td>
-                    <td className="px-4 py-2">{customer.phone}</td>
+                {userList.map((user) => (
+                  <tr key={user.uuid} className="border-t border-gray-200">
+                    <td className="px-4 py-2">{user.id}</td>
+                    <td className="px-4 py-2">{user.first_name}</td>
+                    <td className="px-4 py-2">{user.last_name}</td>
+                    <td className="px-4 py-2">{user.street}</td>
+                    <td className="px-4 py-2">{user.address}</td>
+                    <td className="px-4 py-2">{user.city}</td>
+                    <td className="px-4 py-2">{user.state}</td>
+                    <td className="px-4 py-2">{user.email}</td>
+                    <td className="px-4 py-2">{user.phone}</td>
                     <td className="px-4 py-2">
                       <button
-                        onClick={() => handleDelete(customer.uuid)}
+                        onClick={() => handleEdit(user)}
+                        className="text-blue-600"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(user.uuid)}
                         className="text-red-600"
                       >
                         Delete
@@ -92,7 +102,7 @@ export default function CustomerList() {
               </tbody>
             </table>
           ) : (
-            <p>No customer data available.</p>
+            <p>No user data available.</p>
           )}
         </div>
       )}
