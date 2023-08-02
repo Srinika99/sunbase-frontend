@@ -8,10 +8,10 @@ export async function login(loginId, password) {
       login_id: loginId,
       password: password,
     }, {
-        headers: {
-            'Content-Type': 'text/plain',
-        },
-        mode: 'no-cors'
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+      mode: 'no-cors'
     });
 
     const data = response.data;
@@ -23,7 +23,7 @@ export async function login(loginId, password) {
       if (error.response) {
         console.error(
           "Login failed. Server responded with:",
-          error.response.data 
+          error.response.data
         );
       } else {
         console.error("Login failed. No response received from the server.");

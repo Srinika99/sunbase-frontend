@@ -14,7 +14,7 @@ export async function getUserList(accessToken) {
 
     const data = response.data;
 
-    return data; 
+    return data;
 
   } catch (error) {
     console.error("Failed to fetch user list:", error);
