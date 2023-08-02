@@ -37,6 +37,13 @@ export default function CustomerList() {
 
   return (
     <div className="min-h-full flex flex-col justify-center px-6 py-12 lg:px-8">
+      <button
+        onClick={() => {window.location.href = "/new-user"}}
+        disabled={isLoading}
+        className="w-full px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-600 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      >
+        {isLoading ? "Creating..." : "New User"}
+      </button>
       <h2 className="text-2xl font-bold leading-9 text-gray-900">Customer List</h2>
       {isLoading ? (
         <p>Loading...</p>
